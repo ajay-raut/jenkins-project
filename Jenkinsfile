@@ -18,7 +18,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clones the repo where this Jenkinsfile resides
+                // Clones the repo where this "Jenkinsfile" resides
                 git branch: 'main', url: 'https://github.com/ajay-raut/jenkins-project.git'
             }
         }
