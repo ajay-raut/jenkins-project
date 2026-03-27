@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Clones the repo where this Jenkinsfile resides
-                git branch: 'main', url: 'https://github.com/ajay-raut/nodejs-server.git'
+                git branch: 'main', url: 'https://github.com/ajay-raut/jenkins-project.git'
             }
         }
         stage('Terraform Init') {
