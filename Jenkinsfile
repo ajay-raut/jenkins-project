@@ -5,6 +5,10 @@ pipeline {
         }
     }
 
+    parameters {
+        choice(name: 'ACTION', choices: ['plan', 'apply', 'destroy'], description: 'Select Terraform Action')
+    }
+
         triggers {
         pollSCM('H/5 * * * *')
     }
@@ -32,15 +36,28 @@ pipeline {
                 sh 'terraform plan -out=tfplan'
             }
         }
-        stage('Terraform Apply') {
-            // Manual approval is a best practice for production
-            input {
-                message "Apply these changes?"
-                ok "Yes"
-            }
+        stage('Terraform Run') {
             steps {
-                sh 'terraform apply -auto-approve tfplan'
+                script {
+                    if (params.ACTION == 'destroy') {
+                        sh 'terraform destroy -auto-approve'
+                    } else if (params.ACTION == 'apply') {
+                        sh 'terraform apply -auto-approve'
+                    } else {
+                        sh 'terraform plan'
+                    }
+                }
             }
         }
+        // stage('Terraform Apply') {
+        //     // Manual approval is a best practice for production
+        //     input {
+        //         message "Apply these changes?"
+        //         ok "Yes"
+        //     }
+        //     steps {
+        //         sh 'terraform apply -auto-approve tfplan'
+        //     }
+        // }
     }
 }
