@@ -1,5 +1,14 @@
 pipeline {
-    agent any
+    agent {
+        node {
+            label 'builtinubuntu'
+        }
+    }
+
+        triggers {
+        pollSCM('H/5 * * * *')
+    }
+
     environment {
         // Reference the ID you created in Jenkins Credentials
         AWS_ACCESS_KEY_ID     = credentials('terraform-aws-cred')
